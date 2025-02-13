@@ -1,0 +1,15 @@
+.dashboard {
+    margin-left: 260px;
+    padding: 20px;
+    flex: 1;
+}
+
+h3 {
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+}
+
