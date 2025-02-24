@@ -12,4 +12,6 @@ router.post('/forgot-password',forgotPassword)
 router.post('/reset-password',resetPassword)
 router.post('/verify-otp',verifyOTP)
 
+// router.post('/google-login',AuthController.googleLogin);
+
 export default router;

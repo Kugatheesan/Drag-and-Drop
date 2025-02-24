@@ -137,7 +137,7 @@ import { promises } from "readline";
     
         // Send email with reset link
         const resetLink = otp;
-        await sendEmail(email, "Password Reset", `Click here to reset your password: ${resetLink}`);
+        await sendEmail(email, "Password Reset", `Click here to reset your password: ${resetLink}`); //otp sent to email
     
         res.status(200).send("Password reset link sent to your email");
     }
@@ -181,5 +181,47 @@ import { promises } from "readline";
         
             res.status(200).send("Password reset successful");
         }
-        
-        
+   
+        // export class AuthController {
+        //     // google
+        //     static async googleLogin(req: any, res: any) {
+        //     try {
+        //     const { token } = req.body;
+        //     const ticket = await client.verifyIdToken({
+        //     idToken: token,
+        //     audience: process.env.GOOGLE_CLIENT_ID,
+        //     });
+        //     const payload = ticket.getPayload();
+        //     if (!payload) {
+        //     return res.status(400).json({ message: "Invalid Google token" });
+        //     }
+        //     console.log("Google User Info:", payload);
+        //     const userResult = await pool.query(
+        //     `SELECT * FROM public."users" WHERE email = $1`, [payload.email]
+        //     );
+        //     let user;
+        //     if (userResult.rows.length === 0) {
+        //     // Insert new user into PostgreSQL
+        //     const insertQuery = `
+        //     INSERT INTO public."users" (username, email, profileImage, role)
+        //     VALUES ($1, $2, $3, $4) RETURNING *`;
+        //     const insertResult = await pool.query(insertQuery, [
+        //     payload.name, payload.email, payload.picture, "user"
+        //     ]);
+        //     user = insertResult.rows[0];
+        //     } else {
+        //     user = userResult.rows[0];
+        //     }
+        //     // Generate JWT
+        //     const authToken = jwt.sign(
+        //     { id: user.id, role: user.role },
+        //     process.env.JWT_SECRET || "default_secret",
+        //     { expiresIn: "1d" }
+        //     );
+        //     res.json({ token: authToken, user });
+        //     } catch (error) {
+        //     console.error("Google Authentication Error:", error);
+        //     res.status(401).json({ message: "Google Authentication Failed" });
+        //     }
+        //     }
+        //     }       

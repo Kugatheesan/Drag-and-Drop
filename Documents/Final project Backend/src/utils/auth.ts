@@ -1,24 +1,24 @@
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-const SECRET_KEY: Secret = 'secretkey';
+const SECRET_KEY: Secret = 'secretkey'; //token use encryption OR decryption 
 
-export interface CustomRequest extends Request {
+export interface CustomRequest extends Request {            // For request add the token 
  token: {
   name: string
  }
 }
 
-export const auth = async (req: Request, res: Response, next: NextFunction) => {
-  console.log("COmes to auth funtion:", req.cookies.auth_token);
+export const auth = async (req: Request, res: Response, next: NextFunction) => {   //middleware function , JWT token for verify 
+
  try {
-  const token = req.cookies.auth_token;
+  const token = req.cookies.auth_token; //cookies la irukum auth_token  ah retrive
   if (!token) {
     res.status(401).send('Not authenticated');
     return;
   }
 
-   const decoded = jwt.verify(token, SECRET_KEY) as { _id: string; name: string; iat: number; exp: number; };
+   const decoded = jwt.verify(token, SECRET_KEY) as { _id: string; name: string; iat: number; exp: number; };  //valided the token
    (req as CustomRequest).token = decoded;
 
    next();

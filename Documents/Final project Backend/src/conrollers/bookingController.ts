@@ -2,6 +2,7 @@ import { Request, response, Response } from "express";
 import { pool } from "../database";
 import { CustomRequest } from "../utils/auth";
 
+
 // Get all bookings
 export const getAllBookings = async (req: Request, res: Response):Promise<any> => {
     try {
