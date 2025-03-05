@@ -26,9 +26,9 @@ app.use(bodyParser.json()); // (optional) Extra JSON parsin
 
 // Use API routes
 app.use("/api/users", router);
-app.use("/api/services", auth, serviceRouter);
-app.use("/api/bookings", auth, bookingRouter)
- app.use("/auth", googleAuthRoutes); //  Add Google Auth Route
+app.use("/api/services", serviceRouter);
+app.use("/api/bookings",bookingRouter)
+app.use("/auth", googleAuthRoutes); //  Add Google Auth Route
 
 
 

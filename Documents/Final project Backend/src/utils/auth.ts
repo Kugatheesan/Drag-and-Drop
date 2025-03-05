@@ -27,6 +27,24 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
  }
 };
 
+export const Adminauth = async (req: Request, res: Response, next: NextFunction) => {   //middleware function , JWT token for verify 
+
+  try {
+   const token = req.cookies.admin_auth_token; //cookies la irukum auth_token  ah retrive
+   if (!token) {
+     res.status(401).send('Not authenticated');
+     return;
+   }
+ 
+    const decoded = jwt.verify(token, SECRET_KEY) as { _id: string; name: string; iat: number; exp: number; };  //valided the token
+    (req as CustomRequest).token = decoded;
+ 
+    next();
+  } catch (err) {
+    res.status(401).send('Please authenticate');
+  }
+ };
+
 export const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
 
   try {

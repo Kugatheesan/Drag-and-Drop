@@ -10,8 +10,8 @@ export const userEmailExists = async (email:string) => {
    return rows.length >0
 }
 
-export const saveUser = async (username: string, email: string, password: string) => {
-    const { rows } = await pool.query ("INSERT INTO public.users (username, email, password) VALUES ($1, $2, $3) RETURNING user, username, email", [username, email, password]);
+export const saveUser = async (username: string, email: string, password: string,role:string) => {
+    const { rows } = await pool.query ("INSERT INTO public.users (username, email, password,role) VALUES ($1, $2, $3,$4) RETURNING user, username, email,role", [username, email, password,role]);
     return rows[0];
 }
 

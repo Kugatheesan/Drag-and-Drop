@@ -2,23 +2,6 @@ import { Request, response, Response } from "express";
 import { pool } from "../database";
 import { CustomRequest } from "../utils/auth";
 
-
-// Get all bookings
-export const getAllBookings = async (req: Request, res: Response):Promise<any> => {
-    try {
-        const result = await pool.query("SELECT * FROM bookings ORDER BY event_date DESC");
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: "No bookings found." });
-        }
-
-        return res.status(200).json(result.rows);
-    } catch (error) {
-        console.error("Error fetching bookings:", error);
-        return res.status(500).json({ message: "Server error" });
-    }
-};
-
 // Create a new booking
 export const createBooking = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -112,3 +95,31 @@ export const deleteBooking = async (req: Request, res: Response) :Promise<any>=>
         return res.status(500).json({ message: "Server error" });
     }
 };
+
+//Get booking
+export const getAllBookings = async (req: Request, res: Response) => {
+    try {
+      const query = `
+        SELECT 
+          b.id, 
+          b.username, 
+          b.telephone_number, 
+          b.event_date,
+          s.name AS service_name, 
+          c.name AS category_name
+        FROM bookings b
+        LEFT JOIN categories c ON CAST(b.category_id AS INTEGER) = c.id
+        LEFT JOIN services s ON c.service_id = s.id
+      `;
+  
+      console.log("Executing query:", query);
+      const result = await pool.query(query);
+      console.log("Query result:", result.rows);
+  
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+  

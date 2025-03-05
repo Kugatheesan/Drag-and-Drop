@@ -1,5 +1,5 @@
 import { Secret } from "jsonwebtoken";
-import { Pool } from "pg";
+import { Pool } from "pg"; //contect with database
 
 export const SECRET_KEY: Secret = process.env.JWT_SECRET!;
 

@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import {pool} from '../database'
 import { promises } from "dns";
+// import { native } from "pg";
 
 
-// Done
+// getAllCategories
 
 export const getAllCategories = async (req: Request, res: Response)=> {
     try {
@@ -315,3 +316,38 @@ export const deleteCategory = async (req: Request, res: Response): Promise<any> 
 
 // }
 
+//add service
+export const addService = async (req: Request, res: Response): Promise<any> => {
+    const { name } = req.body; // No need for id
+
+    try {
+        const result = await pool.query(
+            "INSERT INTO services (name) VALUES ($1) RETURNING *",
+            [name]
+        );
+
+        return res.status(201).json({ message: "Service added successfully", service: result.rows[0] });
+    } catch (error) {
+        console.error("Error adding service:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
+
+//addcategory
+export const addCategory = async (req: Request, res: Response): Promise<any> => {
+    const { service_id, name, description } = req.body; // No need for id
+
+    console.log("Received Data:", req.body);
+
+    try {
+        const result = await pool.query(
+            "INSERT INTO categories (service_id, name, description) VALUES ($1, $2, $3) RETURNING *",
+            [service_id, name, description]
+        );
+
+        return res.status(201).json({ message: "Category added successfully", category: result.rows[0] });
+    } catch (error) {
+        console.error("Error adding category:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
