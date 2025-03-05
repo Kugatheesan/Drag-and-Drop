@@ -9,32 +9,32 @@ interface User {
   email: string;
 }
 
-const Users: React.FC = () => {
+const Users: React.FC = () => {      //React Functional component
   const [users, setUsers] = useState<User[]>([]);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false); //conform deleted popup
+  const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null); //store by deleted user ID
 
   useEffect(() => {
     // Fetch users when component mounts
     axios
-      .get("http://localhost:5000/api/users")
+      .get("http://localhost:3000/api/users/get") 
       .then((response) => {
-        setUsers(response.data.sort((a: User, b: User) => a.id - b.id));
+        setUsers(response.data.sort((a: User, b: User) => a.id - b.id)); //align the id order
       })
       .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
   const handleDelete = (id: number) => {
     setUserIdToDelete(id);
-    setShowModal(true);
+    setShowModal(true); //delete button poup
   };
 
   const confirmDelete = () => {
-    if (userIdToDelete !== null) {
+    if (userIdToDelete !== null) { //check the null
       axios
-        .delete(`http://localhost:5000/api/users/${userIdToDelete}`)
+      .delete(`http://localhost:3000/api/users/get/${userIdToDelete}`)
         .then(() => {
-          setUsers((prevUsers) => prevUsers.filter(user => user.id !== userIdToDelete));
+          setUsers((prevUsers) => prevUsers.filter(user => user.id !== userIdToDelete));    
           setShowModal(false);
         })
         .catch((error) => {

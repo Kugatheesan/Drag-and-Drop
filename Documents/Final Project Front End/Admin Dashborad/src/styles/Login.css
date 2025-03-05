@@ -1,0 +1,93 @@
+/* Responsive Fullscreen Background */
+.signin-shape {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #3498db, #8e44ad);
+    padding: 20px;
+  }
+  
+  /* Login Box Styling */
+  .signin-box {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Heading */
+  .signin-box h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 22px;
+  }
+  
+  /* Input Fields */
+  .signin-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+  }
+  
+  /* Focus on Input Fields */
+  .signin-box input:focus {
+    border: 1px solid #3498db;
+    outline: none;
+  }
+  
+  /* Button */
+  .signin-btn {
+    background: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+  }
+  
+  .signin-btn:hover {
+    background: #2980b9;
+  }
+  
+  /* Error Message Styling */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: left;
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .signin-box {
+      width: 90%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .signin-box {
+      padding: 20px;
+    }
+  
+    .signin-box h3 {
+      font-size: 20px;
+    }
+  
+    .signin-btn {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  

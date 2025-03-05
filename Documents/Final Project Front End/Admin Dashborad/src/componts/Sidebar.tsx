@@ -36,9 +36,3 @@ const Sidebar: React.FC = () => {
 };
 
 export default Sidebar;
-
-
-
-{/* <li className={location.pathname === "/analytics" ? "active" : ""}>
-            <Link to="/analytics">Analytics</Link>
-          </li> */}

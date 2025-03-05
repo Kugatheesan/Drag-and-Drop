@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/Event.css";
+import "../styles/Event.css"; 
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: number;
@@ -21,10 +22,10 @@ const Services: React.FC = () => {
   const [newCategory, setNewCategory] = useState({ name: "", description: "", service_id: "" });
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: number; type: "service" | "category" } | null>(null);
-
+  const navigate=useNavigate ()
   // Fetch services and categories
   useEffect(() => {
-    axios.get("http://localhost:5000/api/service")
+    axios.get("http://localhost:3000/api/services",{withCredentials:true})
       .then((response) => {
         setServices(response.data);
       })
@@ -32,7 +33,7 @@ const Services: React.FC = () => {
         console.error("Error fetching services:", error);
       });
 
-    axios.get("http://localhost:5000/api/categories")
+    axios.get("http://localhost:3000/api/services/categories",{withCredentials:true})
       .then((response) => {
         setCategories(response.data);
       })
@@ -41,16 +42,38 @@ const Services: React.FC = () => {
       });
   }, []);
 
+// const getService = () => {
+//     axios.get("http://localhost:3000/api/services",{withCredentials:true})
+//     .then((response) => {
+//       setServices(response.data);
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching services:", error);
+//     });
+//    }
+   
+// const getCategory = () => {
+//     axios.get("http://localhost:3000/api/services/categories",{withCredentials:true})
+//     .then((response) => {
+//       setCategories(response.data);
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching categories:", error);
+//     });
+//   }
+
   const handleAddService = () => {
     if (!newServiceName.trim()) {
       alert("Service name cannot be empty!");
       return;
     }
 
-    axios.post("http://localhost:5000/api/addservice", { name: newServiceName })
+    axios.post("http://localhost:3000/api/services/create", { name: newServiceName },{withCredentials:true})
       .then((response) => {
         setServices([...services, response.data.service]);
         setNewServiceName("");
+        // fetchEvents();
+        navigate('/events', { state: { refresh: true } }); 
       })
       .catch((error) => console.error("Error adding service:", error));
   };
@@ -60,13 +83,17 @@ const Services: React.FC = () => {
       alert("Category name and Service ID are required!");
       return;
     }
+    console.log("Sending Data:", newCategory); 
 
-    axios.post("http://localhost:5000/api/addcategories", {
+    axios.post("http://localhost:3000/api/services/addcatgeocary", {
       name: newCategory.name,
       description: newCategory.description,
       service_id: Number(newCategory.service_id),
-    })
+    },{withCredentials:true})
       .then((response) => {
+
+        console.log("Response:", response.data);
+
         setCategories([...categories, response.data.category]);
         setNewCategory({ name: "", description: "", service_id: "" });
       })
@@ -77,20 +104,22 @@ const Services: React.FC = () => {
     if (itemToDelete) {
       const { id, type } = itemToDelete;
       if (type === "service") {
-        axios.delete(`http://localhost:5000/api/services/${id}`)
+        axios.delete(`http://localhost:3000/api/services/serdelete/${id}`,{withCredentials:true})
           .then(() => {
             setServices(services.filter(service => service.id !== id));
             setShowConfirmDelete(false);
+            alert("Service deleted successfully");
           })
           .catch((error) => {
             console.error("Error deleting service:", error);
             setShowConfirmDelete(false);
           });
       } else if (type === "category") {
-        axios.delete(`http://localhost:5000/api/categories/${id}`)
+        axios.delete(`http://localhost:3000/api/services/catdelete/${id}`,{withCredentials:true})
           .then(() => {
             setCategories(categories.filter(category => category.id !== id));
             setShowConfirmDelete(false);
+            alert("Service deleted successfully");
           })
           .catch((error) => {
             console.error("Error deleting category:", error);

@@ -19,7 +19,9 @@ const Book: React.FC = () => {
   // Get bookings
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/book")
+      .get("http://localhost:3000/api/bookings/get",{withCredentials:true},
+        
+      )
       .then((response) => {
         // bookings order
         const sortedBookings = response.data.sort((a: Booking, b: Booking) => a.id - b.id);
@@ -32,7 +34,7 @@ const Book: React.FC = () => {
   const deleteBooking = async () => {
     if (itemToDelete) {
       try {
-        await axios.delete(`http://localhost:5000/api/bookdelete/${itemToDelete.id}`);
+        await axios.delete(`http://localhost:3000/api/bookings/delete/${itemToDelete.id}`,{withCredentials:true});
         setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== itemToDelete.id));
         setShowConfirmDelete(false);
         setItemToDelete(null);
